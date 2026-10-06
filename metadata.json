@@ -1,0 +1,6 @@
+{
+  "name": "MRB-SYSTEM - Meeting Room Booking & Management System",
+  "description": "ລະບົບການບໍລິຫານຈັດການ ການຈອງຫ້ອງປະຊຸມ ຄົບວົງຈອນ ພ້ອມ Dashboard, Timeline Grid, Door Sign Kiosk, QR/PIN Check-in ແລະ Analytics",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

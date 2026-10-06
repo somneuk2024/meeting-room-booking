@@ -1,0 +1,160 @@
+{
+  "entities": {
+    "Room": {
+      "title": "Room",
+      "description": "A meeting room entity available for booking",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the room"
+        },
+        "name": {
+          "type": "string",
+          "description": "English name of the room",
+          "maxLength": 100
+        },
+        "nameLao": {
+          "type": "string",
+          "description": "Lao name of the room",
+          "maxLength": 100
+        },
+        "capacity": {
+          "type": "number",
+          "description": "Maximum seating capacity"
+        },
+        "floor": {
+          "type": "number",
+          "description": "Building floor number"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["boardroom", "standard", "huddle", "training", "vip"],
+          "description": "Room category type"
+        },
+        "amenities": {
+          "type": "array",
+          "description": "List of amenities available in the room"
+        },
+        "image": {
+          "type": "string",
+          "description": "Image URL of the room"
+        },
+        "isVip": {
+          "type": "boolean",
+          "description": "Whether the room is VIP designated"
+        },
+        "requiresApproval": {
+          "type": "boolean",
+          "description": "Whether bookings require administrator approval"
+        },
+        "description": {
+          "type": "string",
+          "description": "English description of the room"
+        },
+        "descriptionLao": {
+          "type": "string",
+          "description": "Lao description of the room"
+        }
+      },
+      "required": ["id", "name", "nameLao", "capacity", "floor", "type"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A meeting room reservation record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the booking"
+        },
+        "refNumber": {
+          "type": "string",
+          "description": "Human-readable booking reference code",
+          "maxLength": 30
+        },
+        "pinCode": {
+          "type": "string",
+          "description": "4-digit check-in PIN code",
+          "maxLength": 10
+        },
+        "roomId": {
+          "type": "string",
+          "description": "Referenced room ID",
+          "maxLength": 100
+        },
+        "title": {
+          "type": "string",
+          "description": "Meeting subject title",
+          "maxLength": 200
+        },
+        "organizer": {
+          "type": "string",
+          "description": "Organizer name",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Organizer email address",
+          "maxLength": 120
+        },
+        "department": {
+          "type": "string",
+          "description": "Department name",
+          "maxLength": 100
+        },
+        "attendeesCount": {
+          "type": "number",
+          "description": "Number of participants"
+        },
+        "date": {
+          "type": "string",
+          "description": "Booking date in YYYY-MM-DD format",
+          "maxLength": 20
+        },
+        "startTime": {
+          "type": "string",
+          "description": "Start time in HH:mm format",
+          "maxLength": 10
+        },
+        "endTime": {
+          "type": "string",
+          "description": "End time in HH:mm format",
+          "maxLength": 10
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "checked-in", "pending", "cancelled"],
+          "description": "Current booking status"
+        },
+        "amenitiesRequested": {
+          "type": "array",
+          "description": "Amenities requested for the meeting"
+        },
+        "catering": {
+          "type": "object",
+          "description": "Catering and refreshment preferences"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when the booking was created"
+        }
+      },
+      "required": ["id", "refNumber", "pinCode", "roomId", "title", "organizer", "date", "startTime", "endTime", "status"]
+    }
+  },
+  "firestore": {
+    "/rooms/{roomId}": {
+      "schema": {
+        "$ref": "#/entities/Room"
+      },
+      "description": "Master collection of meeting rooms"
+    },
+    "/bookings/{bookingId}": {
+      "schema": {
+        "$ref": "#/entities/Booking"
+      },
+      "description": "Collection of meeting room reservations"
+    }
+  }
+}

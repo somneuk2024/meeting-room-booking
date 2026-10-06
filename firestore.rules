@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Rooms Collection: accessible to all users for scheduling and kiosk
+    match /rooms/{roomId} {
+      allow read: if true;
+      allow write: if isValidId(roomId);
+    }
+
+    // Bookings Collection: viewable by all users for live availability & kiosk
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow create: if isValidId(bookingId)
+                    && request.resource.data.title is string
+                    && request.resource.data.title.size() <= 256
+                    && request.resource.data.roomId is string
+                    && request.resource.data.date is string
+                    && request.resource.data.startTime is string
+                    && request.resource.data.endTime is string;
+      allow update: if isValidId(bookingId);
+      allow delete: if isValidId(bookingId);
+    }
+
+    // Global Catch-all default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
